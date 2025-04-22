@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Source_Sans_3 as fontSans} from "next/font/google";
 import "./globals.css";
+import Header from "@/components/common/Header";
+import Footer from "@/components/common/Footer";
+
 
 const fontsans =fontSans({
   variable: "--font-sans",
@@ -25,7 +28,12 @@ export default function RootLayout({
       <body
         className={`${fontsans.variable} font-sans antialiased`}
       >
-        {children}
+        <div className="relative flex min-h-screen flex-col">
+          <Header/>
+          <main className="flex-1">{children}</main>
+          <Footer/>
+        </div>
+       
       </body>
     </html>
   );
