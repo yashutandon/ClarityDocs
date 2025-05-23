@@ -1,3 +1,4 @@
+"use client";
 import NavLink from "./Nav-link";
 import { FileText } from "lucide-react";
 import { Button } from "../ui/button";

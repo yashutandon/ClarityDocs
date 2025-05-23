@@ -1,39 +1,60 @@
 "use client";
+
+import { useUploadThing } from "@/utilis/uploadthing";
 import UploadForminput from "./UploadForminput";
 import { z } from "zod";
+import { toast } from "sonner"; // ✅ FIXED HERE
 
 const schema = z.object({
   file: z
     .instanceof(File, { message: "Invalid file" })
     .refine(
       (file) => file.size <= 20 * 1024 * 1024,
-      "file size must be less than 20MB"
+      "File size must be less than 20MB"
     )
     .refine(
       (file) => file.type.startsWith("application/pdf"),
       "File must be a PDF"
     ),
 });
+
 const UploadForm = () => {
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const { startUpload } = useUploadThing("pdfUploader", {
+    onClientUploadComplete: () => {
+      console.log("uploaded successfully!");
+    },
+    onUploadError: (err) => {
+      console.error("error occurred while uploading", err);
+      toast.error("❌ Upload failed: " + err.message); // ✅ Working toast
+    },
+    onUploadBegin: ({ file }) => {
+      console.log("upload has begun for", file);
+    },
+  });
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Form submitted");
     const formData = new FormData(e.currentTarget);
     const file = formData.get("file") as File;
 
-    //validating the fields
     const validatedFields = schema.safeParse({ file });
     if (!validatedFields.success) {
-      console.error(validatedFields.error.flatten().fieldErrors.file?.[0] ?? 'Invalid file');
+      toast.error(
+        validatedFields.error.flatten().fieldErrors.file?.[0] ??
+          "Invalid file"
+      );
       return;
     }
-    // schema with zod
-    //upload the file to uploadthing
-    // parse the pdf using langchain
-    // summarize the pdf using AI
-    // save the summary to the database
-    // redirect to the [id] summary page
+
+    const resp = await startUpload([file]);
+    if (!resp) {
+      toast.error("❌ Failed to upload the file");
+      return;
+    }
+
+    toast.success("📄 Uploading your PDF — Hang on for a sec ✨");
   };
+
   return (
     <div className="flex flex-col gap-8 w-full max-w-2xl mx-auto">
       <UploadForminput onSubmit={handleSubmit} />
