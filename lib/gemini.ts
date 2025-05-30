@@ -7,7 +7,7 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
 export async function generateSummaryWithCompletion(pdfText: string) {
     try {
         const model = genAI.getGenerativeModel({
-            model: "gemini-1.5-pro-002", generationConfig: {
+            model: "gemini-2.0-flash", generationConfig: {
                 temperature: 0.7,
                 maxOutputTokens: 1500,
             }
@@ -33,10 +33,7 @@ export async function generateSummaryWithCompletion(pdfText: string) {
         }
         return response.text();
     } catch (error: any) {
-        if (error?.response?.status === 429 || error?.code === 429) {
-            throw new Error("RATE_LIMIT_EXCEEDED");
-        }
-
+    
         console.error("Gemini API Error:", error);
         throw error;
     }
