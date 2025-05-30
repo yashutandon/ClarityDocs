@@ -39,6 +39,15 @@ export async function generatePdfSummary(uploadResponse: [{
         } catch (error) {
             console.log(error);
             //call gemini
+            if(error instanceof Error && error.message === 'RATE_LIMIT_EXCEEDED'){
+                try {
+                    summary=await generateSummaryFromGemini({pdfText});
+                } catch (geminiError) {
+                    console.error('Gemini API failed after OpenAi quota exceeded',geminiError);
+
+                }
+                throw new Error('Failed to generate summary with available AI providers')
+            }
         }
 
         if (!summary) {
