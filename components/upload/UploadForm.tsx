@@ -3,9 +3,10 @@ import { useUploadThing } from "@/utils/uploadthing";
 import UploadFormInput from "./UploadFormInput";
 import {z} from "zod";
 import { toast } from "sonner";
-import { error } from "console";
-import { generatePdfSummary } from "@/action/uploadaction";
+import { generatePdfSummary, storePdfSummaryAction } from "@/action/uploadaction";
 import { useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+
 
 const schema=z.object({
     file:z.instanceof(File,{message:'Invalid File'}).refine((file)=>file.size<=20 *1024*1024,'File size must be less than 20MB').refine((file)=>file.type.startsWith('application/pdf'),'File must be a PDF')
@@ -15,6 +16,8 @@ export default function UploadForm() {
 
   const formRef=useRef<HTMLFormElement>(null);
   const [isloading,setIsloading]=useState(false);
+  const router= useRouter();
+  
 
      const { startUpload, routeConfig } = useUploadThing("pdfUploader", {
     onClientUploadComplete: () => {
@@ -24,7 +27,7 @@ export default function UploadForm() {
       console.error("error occurred while uploading",err);
       toast.error('Error occurred while uploading'+ err);
     },
-    onUploadBegin: ({ file }) => {
+    onUploadBegin: ( file ) => {
       console.log("upload has begun for", file);
     },
   });
@@ -54,6 +57,7 @@ export default function UploadForm() {
 
     // upload the file to the uploadthing
     const resp= await startUpload([file]);
+    console.log("Upload response:", resp); 
     if(!resp){
       toast.error("Something went wrong while uploading " + "Please use a different file" );
       setIsloading(false);
@@ -65,8 +69,21 @@ toast.success('✅PDF Uploaded '+ "Hang tight! Our AI us reading through your do
     console.log({result});
     const { data=null, message=null}=result || {};
     if(data){
+      let storeResult:any;
       toast.success('✅Saving your  PDF '+ "Hang tight! We are saving your summary!✨" );
-      formRef.current?.reset();
+      if(data.summary){
+        storeResult= await storePdfSummaryAction({
+          summary: data.summary,
+          fileUrl:resp[0].serverData.file.ufsUrl,
+          title:data.title,
+          fileName:file.name,
+         
+        });
+        
+        toast.success('Summary Generated!✨' + " Your PDF has been successfully summarized and saved!🤝");
+        formRef.current?.reset();
+        router.push(`/summaries/${storeResult.data.id}`);
+      }
     }
     // summarize the pdf
     // save the summary to the database
@@ -74,6 +91,8 @@ toast.success('✅PDF Uploaded '+ "Hang tight! Our AI us reading through your do
     setIsloading(false);
     console.error('Error occurred',error);
     formRef.current?.reset();
+   } finally{
+    setIsloading(false);
    }
   };
   return (

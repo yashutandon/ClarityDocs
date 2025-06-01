@@ -9,7 +9,7 @@ const client = new OpenAI({
 export async function generateSummaryfromOpenAI(pdfText: string) {
     try {
         const response = await client.chat.completions.create({
-            model: "gpt-3.5-turbo",
+            model: "gpt-4o",
             messages: [
                 {
                     role: "system",

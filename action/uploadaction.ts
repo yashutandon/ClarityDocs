@@ -3,6 +3,15 @@
 import { FetchAndExtractPdfText } from "@/lib/langchain";
 import { generateSummaryfromOpenAI } from "@/lib/openAi";
 import { generateSummaryWithCompletion } from "@/lib/gemini";
+import { auth } from "@clerk/nextjs/server";
+import { getDbConnection } from "@/lib/db";
+
+import { formFileNameAsTitle } from "@/utils/format";
+import { revalidatePath } from "next/cache";
+
+interface PdfsSummaryType {
+    userId?: string, fileUrl: string, summary: string, title: string, fileName: string
+}
 
 export async function generatePdfSummary(uploadResponse: [{
     serverData: {
@@ -40,11 +49,12 @@ export async function generatePdfSummary(uploadResponse: [{
         } catch (error) {
             console.log(error);
             //call gemini
-            if(error instanceof Error && error.message === 'RATE_LIMIT_EXCEEDED'){
+            if (error instanceof Error && error.message === 'Rate limit exceeded') {
                 try {
-                    summary=await generateSummaryWithCompletion(pdfText);
-                } catch (geminiError) {
-                    console.error('Gemini API failed after OpenAi quota exceeded',geminiError);
+                    summary = await generateSummaryfromOpenAI(pdfText);
+                    console.log({ summary });
+                } catch (openaiError) {
+                    console.error('Open API failed after GeminiAi quota exceeded', openaiError);
 
                 }
                 throw new Error('Failed to generate summary with available AI providers')
@@ -56,6 +66,16 @@ export async function generatePdfSummary(uploadResponse: [{
                 success: false,
                 message: 'failed to generate summary',
                 data: null,
+            };
+        }
+        const fomattedfilename = formFileNameAsTitle(fileName);
+        return {
+            success: true,
+            message: 'summary generated',
+            data: {
+                summary: summary,
+                title: fileName,
+                fileufsUrl:ufsUrl,
             }
         }
     } catch (error) {
@@ -65,4 +85,61 @@ export async function generatePdfSummary(uploadResponse: [{
             data: null,
         }
     }
+}
+
+async function savepdfsummary({ userId, fileUrl, summary, title, fileName }: PdfsSummaryType) {
+    try {
+        const sql = await getDbConnection();
+        await sql`INSERT INTO pdf_summaries(
+    user_id, original_text, 
+    summary_text, title, file_name)
+     VALUES (
+    ${userId}, 
+    ${fileUrl}, 
+    ${summary},
+    ${title},
+    ${fileName}
+  );`;
+    } catch (error) {
+        console.error('Error saving PDF summary', error);
+        throw error;
+    }
+}
+
+export async function storePdfSummaryAction({ fileUrl, summary, title, fileName }: PdfsSummaryType) {
+    let savedsummary: any;
+    try {
+        const { userId } = await auth();
+        if (!userId) {
+            return {
+                success: false,
+                message: 'User not found',
+
+            }
+        }
+        savedsummary = await savepdfsummary({ userId, fileUrl, summary, title, fileName });
+
+        if (!savedsummary) {
+            return {
+                success: false,
+                message: 'failed to save summary',
+            }
+        }
+        
+    } catch (error) {
+        return {
+            success: false,
+            message: error instanceof Error ? error.message : 'Error saving PDF summary',
+
+        }
+    }
+
+    revalidatePath(`/summaries/${savedsummary.id}`);
+    return {
+            success: true,
+            message: 'PDF summary saved',
+            data:{
+                id:savedsummary.id,
+            }
+        }
 }
