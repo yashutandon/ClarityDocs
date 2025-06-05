@@ -25,7 +25,7 @@ const EmojiPoint = ({ point, index }: { point: string; index: number }) => {
 
   return (
     <div
-      key={`point-${index}`}
+      
       className="group relative bg-gradient-to-br from-gray-200/10 to-gray-400/10 p-4 rounded-2xl border border-gray-500/10 hover:shadow-lg transition-all"
     >
       <div className="absolute inset-0 bg-gradient-to-r from-gray-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl" />
@@ -40,7 +40,7 @@ const EmojiPoint = ({ point, index }: { point: string; index: number }) => {
 const RegularPoint = ({ point, index }: { point: string; index: number }) => {
   return (
     <div
-      key={`point-${index}`}
+      
       className="group relative bg-gradient-to-br from-gray-200/10 to-gray-400/10 p-4 rounded-2xl border border-gray-500/10 hover:shadow-lg transition-all"
     >
       <div className="absolute inset-0 bg-gradient-to-r from-gray-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl" />

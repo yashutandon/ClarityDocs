@@ -3,7 +3,7 @@ import { Calendar, ChevronLeft, Clock, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 
-export default function SummaryHeader({ title,createdAt,readingTime }: { title: string, createdAt:string,readingTime:string }) {
+export default function SummaryHeader({ title,createdAt,readingTime }: { title: string, createdAt:string,readingTime:number }) {
   return (
     <h1 className="flex gap-4 mb-4 justify-between">
       <div className="space-y-6">

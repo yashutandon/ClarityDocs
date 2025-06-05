@@ -42,7 +42,7 @@ export default async function DashboardPage() {
           <div className="mb-6">
             <div className="bg-rose-50 border border-rose-200 rounded-lg p-4 text-rose-800">
               <p className="text-sm">
-                You've reached the limit of {uploadlimit} uploads on the Basic
+                You've reached the limit of {uploadlimit} uploads on the Free
                 plan.{" "}
                 <Link
                   href="/#pricing"

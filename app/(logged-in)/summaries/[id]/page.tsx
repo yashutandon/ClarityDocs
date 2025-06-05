@@ -22,7 +22,7 @@ export default async function SummeryPage(props: {
   const readingTime = Math.ceil((word_count || 0) / 200);
 
   return (
-    <div className="relative isolate bg-gradient-to-b from-rose-50/40 to-white overflow-visible">
+    <div className="relative isolate bg-gradient-to-b from-rose-50/40 to-white overflow-hidden">
       <BgGradient className="from-rose-400 via-rose-300 to-orange-200" />
 
       <div className="container mx-auto flex flex-col gap-4">

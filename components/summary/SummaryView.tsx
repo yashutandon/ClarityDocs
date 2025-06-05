@@ -44,4 +44,3 @@ export default function SummaryView({summary}:{summary:string}) {
    </Card>
   )
 }
-
