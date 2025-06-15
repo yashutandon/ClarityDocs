@@ -67,12 +67,24 @@ async function createOrUpdateUser({
 }) {
   try {
     const user = await sql`SELECT * FROM users WHERE email = ${email}`;
-    if (user.length === 0) {
-      await sql`
-        INSERT INTO users (email, full_name, customer_id, price_id, status)
-        VALUES (${email}, ${full_name}, ${customer_id}, ${price_id}, ${status})
-      `;
-    }
+   if (user.length === 0) {
+  // New user
+  await sql`
+    INSERT INTO users (email, full_name, customer_id, price_id, status)
+    VALUES (${email}, ${full_name}, ${customer_id}, ${price_id}, ${status})
+  `;
+} else {
+  // ✅ Existing user — update their plan
+  await sql`
+    UPDATE users
+    SET full_name = ${full_name},
+        customer_id = ${customer_id},
+        price_id = ${price_id},
+        status = ${status}
+    WHERE email = ${email}
+  `;
+}
+
   } catch (error) {
     console.error("❌ Failed to create user:", error);
   }

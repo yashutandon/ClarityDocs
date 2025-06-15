@@ -4,7 +4,7 @@
     name: "Basic",
     price: 500,
     description: "Perfect for occasional use",
-    items: ["50 PDF summaries per month", "Standard processing speed", "Email support"],
+    items: ["5 PDF summaries per month", "Standard processing speed", "Email support"],
     paymentLink: "https://buy.stripe.com/test_dRm6oJcGs4itdSgfxE9sk00" ,
     priceId:  "price_1RXlrvSAXpJOyYa2AM1Se0CZ" ,
   },
