@@ -1,4 +1,48 @@
 import { Pizza } from "lucide-react";
+import { MotionDiv, MotionH3 } from "../common/MotionWrapper";
+import SummaryView from "../summary/SummaryView";
+
+ const demoSummary = {
+   summary: `
+
+# 📄 ClarityDocs – Your AI-Powered Document Summary Assistant 🚀
+- 📌 An intelligent document reader that transforms PDFs into human-friendly summaries.
+- 🔧 Ideal for admit cards, resumes, notes, and any formal document needing a quick overview.
+
+# Document Details
+- 📄 Type: AI Summary Tool
+- 🎯 For: Students, Job Seekers, Professionals, and Document Reviewers
+
+# Key Highlights
+- 🔥 Upload any PDF and get a clean, emoji-rich, structured summary.
+- ⭐ Uses OpenAI's GPT-4o model for fast, contextual understanding.
+- 💫 Secure login system with Clerk & Firebase support.
+
+# Why It Matters
+- 🧠 Reading long PDFs is time-consuming. ClarityDocs cuts through the clutter and gives you the main points instantly.
+- 💡 It makes document review fast, beautiful, and interactive — especially useful for exam forms, resumes, or business docs.
+
+# Main Points
+- 🔍 Built using Next.js 14, Tailwind CSS, Framer Motion for frontend.
+- 💪 Backend is powered by Node.js server actions and Vercel Edge Functions.
+- ⚠️ Uses Firestore, Neon Postgres, UploadThing, Zod, and Clerk for full-stack integration.
+
+# Pro Tips
+- 🌟 Use it for admit cards, resumes, or class notes.
+- 💎 Results improve when the PDF has clean, structured content.
+- 🧩 You can easily share summaries or generate them again anytime.
+
+# Key Terms to Know
+- 🧠 GPT-4o: OpenAI’s latest fast and smart AI model.
+- 🗂️ Clerk Auth: Authentication system used for secure user handling.
+
+# Bottom Line
+- 🪂 ClarityDocs helps you turn any boring PDF into an engaging summary in seconds. Save time. Stay smart.
+
+`
+};
+
+
 
 export default function DemoSection() {
   return (
@@ -21,19 +65,23 @@ export default function DemoSection() {
             <Pizza className="w-6 h-6 text-rose-500" />
           </div>
           <div className="text-center mb-16 ">
-            <h3 className="font-bold text-3xl max-w-2xl mx-auto px-4 sm:px-6">
+            <MotionH3 initial={{y:20,opacity:0}} whileInView={{y:'0',opacity:1}} transition={{duration:0.5, delay:0.2}} className="font-bold text-3xl max-w-2xl mx-auto px-4 sm:px-6">
               Experience how ClarityDocs{" "}
               <span className="bg-linear-to-r from-rose-500 to-rose-700 bg-clip-text text-transparent">
                 {" "}
                 simplifies this complex PDF
               </span>{" "}
               in seconds!
-            </h3>
+            </MotionH3>
+          </div>
           </div>
           <div className="flex justify-center items-center px-2 sm:px-4 lg:px-6">
-            {/* {summary} */}
+            
+              <MotionDiv initial={{opacity:0}} whileInView={{opacity:1}} transition={{duration:0.5}}>
+              <SummaryView summary={demoSummary.summary}/>
+            </MotionDiv> 
           </div>
-        </div>
+        
       </div>
     </section>
   );
