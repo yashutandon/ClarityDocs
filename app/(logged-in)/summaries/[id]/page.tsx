@@ -1,4 +1,5 @@
 import BgGradient from "@/components/common/BgGradient";
+import { MotionDiv } from "@/components/common/MotionWrapper";
 import SourceInfo from "@/components/summary/SourceInfo";
 import SummaryHeader from "@/components/summary/SummaryHeader";
 import SummaryView from "@/components/summary/SummaryView";
@@ -22,14 +23,14 @@ export default async function SummeryPage(props: {
   const readingTime = Math.ceil((word_count || 0) / 200);
 
   return (
-    <div className="relative isolate bg-gradient-to-b from-rose-50/40 to-white overflow-hidden">
+    <div className="relative isolate min-h-screen  bg-gradient-to-b from-rose-50/40 to-white ">
       <BgGradient className="from-rose-400 via-rose-300 to-orange-200" />
 
       <div className="container mx-auto flex flex-col gap-4">
-        <div className="px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-10">
-          <div className="flex flex-col">
+        <div className="px-4 sm:px-6 lg:px-8 py-6 sm:py-12 lg:py-24">
+          <MotionDiv initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{duration:0.5}} className="flex flex-col">
             <SummaryHeader title={title} createdAt={created_at} readingTime={readingTime} />
-          </div>
+          </MotionDiv>
 
           {file_name && (
             <SourceInfo
@@ -41,7 +42,7 @@ export default async function SummeryPage(props: {
             />
           )}
 
-          <div className="relative mt-4 sm:mt-6 lg:mt-10">
+          <MotionDiv initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{duration:0.5}} className="relative mt-4 sm:mt-8 lg:mt-16">
             <div className="relative p-4 sm:p-6 lg:p-8 bg-white/80 backdrop-blur-md rounded-2xl sm:rounded-3xl shadow-xl border border-rose-100/30 transition-all duration-300 hover:shadow-2xl">
               <div className="absolute inset-0 bg-gradient-to-br from-rose-50/50 via-orange-50/30 to-transparent opacity-50 rounded-2xl sm:rounded-3xl" />
 
@@ -54,7 +55,7 @@ export default async function SummeryPage(props: {
                 <SummaryView summary={summary.summary_text} />
               </div>
             </div>
-          </div>
+          </MotionDiv >
         </div>
       </div>
     </div>
