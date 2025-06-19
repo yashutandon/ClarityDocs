@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { generatePdfSummary, storePdfSummaryAction } from "@/action/uploadaction";
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import LoadingSkeleton from "./LoadingSkeleton";
 
 
 const schema=z.object({
@@ -104,6 +105,7 @@ toast.success('✅PDF Uploaded '+ "Hang tight! Our AI us reading through your do
       />
 
       {isloading && (
+        <>
         <div className="relative">
           <div
             className="absolute inset-0 flex items-center"
@@ -117,6 +119,8 @@ toast.success('✅PDF Uploaded '+ "Hang tight! Our AI us reading through your do
             </span>
           </div>
         </div>
+        <LoadingSkeleton/>
+        </>
       )}
     </div>
   );
