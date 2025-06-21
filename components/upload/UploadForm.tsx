@@ -3,10 +3,12 @@ import { useUploadThing } from "@/utils/uploadthing";
 import UploadFormInput from "./UploadFormInput";
 import {z} from "zod";
 import { toast } from "sonner";
-import { generatePdfSummary, storePdfSummaryAction } from "@/action/uploadaction";
+import { generatePdfSummary, generatePdfText, storePdfSummaryAction } from "@/action/uploadaction";
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import LoadingSkeleton from "./LoadingSkeleton";
+import { formFileNameAsTitle } from "@/utils/format";
+import { currentUser } from "@clerk/nextjs/server";
 
 
 const schema=z.object({
@@ -65,18 +67,47 @@ export default function UploadForm() {
         return;
     }
 toast.success('✅PDF Uploaded '+ "Hang tight! Our AI us reading through your document" );
+const uploadFileUrl=resp[0].serverData.file.ufsUrl;
     // parse the pdf using langchain
-    const result = await generatePdfSummary(resp);
-    console.log({result});
-    const { data=null, message=null}=result || {};
-    if(data){
-      let storeResult:any;
-      toast.success('✅Saving your  PDF '+ "Hang tight! We are saving your summary!✨" );
-      if(data.summary){
+   
+    const fomattedfilename = formFileNameAsTitle(file.name);
+    const pdfTextResponse=await generatePdfText({
+      ufsUrl:uploadFileUrl,
+    })
+    if (!pdfTextResponse.success || !pdfTextResponse.data?.pdfText) {
+  toast.error("❌ Failed to extract text from PDF");
+  setIsloading(false);
+  return;
+}
+
+const pdfText = pdfTextResponse.data.pdfText;
+
+     toast('📄Generating  PDF summary '+ "Hold for a second" );
+    //call ai service
+    
+    const summaryResult = await generatePdfSummary([
+  {
+    serverData: {
+      pdfText: pdfText,
+      file: {
+        ufsUrl: uploadFileUrl,
+        name: file.name,
+      },
+    },
+  },
+]);
+
+    console.log({summaryResult});
+    
+    const {data= null,message=null}= summaryResult || {}
+        if(data?.summary){
+        let storeResult:any;
+        toast.success('✅Saving your  PDF '+ "Hang tight! We are saving your summary!✨" );
+      //save the summary to the database
         storeResult= await storePdfSummaryAction({
           summary: data.summary,
           fileUrl:resp[0].serverData.file.ufsUrl,
-          title:data.title,
+          title:fomattedfilename,
           fileName:file.name,
          
         });
@@ -85,7 +116,7 @@ toast.success('✅PDF Uploaded '+ "Hang tight! Our AI us reading through your do
         formRef.current?.reset();
         router.push(`/summaries/${storeResult.data.id}`);
       }
-    }
+    
     // summarize the pdf
     // save the summary to the database
    } catch (error) {

@@ -5,7 +5,6 @@ import { generateSummaryfromOpenAI } from "@/lib/openAi";
 import { generateSummaryWithCompletion } from "@/lib/gemini";
 import { auth } from "@clerk/nextjs/server";
 import { getDbConnection } from "@/lib/db";
-
 import { formFileNameAsTitle } from "@/utils/format";
 import { revalidatePath } from "next/cache";
 
@@ -13,35 +12,62 @@ interface PdfsSummaryType {
     userId?: string, fileUrl: string, summary: string, title: string, fileName: string
 }
 
-export async function generatePdfSummary(uploadResponse: [{
-    serverData: {
-        userId: string;
-        file: {
+export async function generatePdfText({ufsUrl}: {
             ufsUrl: string;
-            name: string;
+           
         }
-    }
-}]) {
-    if (!uploadResponse) {
+    ){
+     if (!ufsUrl) {
         return {
             success: false,
             message: 'file upload failed',
             data: null,
         }
     }
-    const { serverData: { userId, file: { ufsUrl: ufsUrl, name: fileName } } } = uploadResponse[0];
-
-    if (!ufsUrl) {
-        return {
-            success: false,
-            message: 'file  upload failed',
-            data: null,
-        }
-    }
+    
 
     try {
         const pdfText = await FetchAndExtractPdfText(ufsUrl)
         console.log({ pdfText });
+      
+
+        if (!pdfText) {
+            return {
+                success: false,
+                message: 'failed to fetch and  extract PDF text',
+                data: null,
+            };
+        }
+        
+        return {
+            success: true,
+            message: 'PDF text generated',
+            data: {
+                pdfText ,
+            }
+        }
+    } catch (error) {
+        return {
+            success: false,
+            message: ' failed to fetch and extract PDF text',
+            data: null,
+        }
+    }
+}
+
+export async function generatePdfSummary(uploadResponse: [{
+    serverData: {
+        pdfText: string;
+        file: {
+            ufsUrl: string;
+            name: string;
+        }
+    }
+}]) {
+   
+    const { serverData: { pdfText, file: { ufsUrl: ufsUrl, name: fileName } } } = uploadResponse[0];
+
+    try {
         let summary;
         try {
             summary = await generateSummaryWithCompletion(pdfText);
@@ -68,20 +94,20 @@ export async function generatePdfSummary(uploadResponse: [{
                 data: null,
             };
         }
-        const fomattedfilename = formFileNameAsTitle(fileName);
+        
         return {
             success: true,
-            message: 'summary generated',
+            message: 'summary generated successfully',
             data: {
                 summary: summary,
-                title: fileName,
+                title:fileName,
                 fileufsUrl:ufsUrl,
             }
         }
     } catch (error) {
         return {
             success: false,
-            message: 'file upload failed',
+            message: 'failed to generate summary',
             data: null,
         }
     }
