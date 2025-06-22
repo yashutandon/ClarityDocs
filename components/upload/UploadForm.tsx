@@ -30,8 +30,8 @@ export default function UploadForm() {
       console.error("error occurred while uploading",err);
       toast.error('Error occurred while uploading'+ err);
     },
-    onUploadBegin: ( file ) => {
-      console.log("upload has begun for", file);
+    onUploadBegin: ( data ) => {
+      console.log("upload has begun for", data);
     },
   });
 
@@ -67,7 +67,7 @@ export default function UploadForm() {
         return;
     }
 toast.success('✅PDF Uploaded '+ "Hang tight! Our AI us reading through your document" );
-const uploadFileUrl=resp[0].serverData.file.ufsUrl;
+const uploadFileUrl=resp[0].serverData.fileUrl;
     // parse the pdf using langchain
    
     const fomattedfilename = formFileNameAsTitle(file.name);
@@ -106,7 +106,7 @@ const pdfText = pdfTextResponse.data.pdfText;
       //save the summary to the database
         storeResult= await storePdfSummaryAction({
           summary: data.summary,
-          fileUrl:resp[0].serverData.file.ufsUrl,
+          fileUrl:resp[0].serverData.fileUrl,
           title:fomattedfilename,
           fileName:file.name,
          
