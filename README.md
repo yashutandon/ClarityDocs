@@ -95,7 +95,7 @@ Or follow the guide here: Next.js Deployment Docs
 
 ##🧑‍💻 8. Author
 Made with ❤️ by Yashu Tandon
-📧 Email: yashutandon@gmail.com
+📧 Email: yashutandon56@gmail.com
 📸 Instagram: @yashu_tandon
 
 ## ⭐9. Support & Feedback
