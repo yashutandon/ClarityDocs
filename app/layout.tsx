@@ -16,6 +16,7 @@ export const metadata: Metadata = {
   title: "ClarityDocs",
   description:
     "An Ai Powered Platform Helps To Get Summary Of Long PDF DOCUMENT.",
+  
 };
 
 export default function RootLayout({
