@@ -21,13 +21,13 @@
 | Category          | Technologies Used                           |
 |------------------ |-------------------------------------------- |
 | 👨‍💻 Frontend       | Next.js 14, TypeScript, Tailwind CSS        |
+| 🧠 Backend         | Node.js, Next.js App Router API Routes      |
 | 🔐 Authentication | Clerk                                       |
 | 💳 Payments       | Stripe                                      |
 | 🤖 AI Integration | OpenAI API, Gemini API                      |
 | 📜 PDF Parsing    | Langchain                                   |
 | 🚀 Deployment     | Vercel                                      |
 
----
 
 ## 🚀 Getting Started
 
