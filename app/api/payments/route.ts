@@ -1,11 +1,10 @@
-// app/api/webhook/route.ts
 
 import { handleCheckSessionCompleted, handleSubscriptionDeleted } from "@/lib/payments";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2025-05-28.basil", // ya latest supported
+  apiVersion: "2025-05-28.basil", 
 });
 
 export const POST = async (req: NextRequest) => {
@@ -20,10 +19,10 @@ export const POST = async (req: NextRequest) => {
   let event: Stripe.Event;
 
   try {
-    // ✅ Construct and verify Stripe event
+    //  Construct and verify Stripe event
     event = stripe.webhooks.constructEvent(payload, sig, endpointSecret);
 
-    // ✅ Event Type Handling
+    //  Event Type Handling
     switch (event.type) {
       case "checkout.session.completed": {
         console.log("✅ Stripe Event: checkout.session.completed");
@@ -31,7 +30,7 @@ export const POST = async (req: NextRequest) => {
         const session = event.data.object as Stripe.Checkout.Session;
         console.log("🔥 Webhook Triggered with session:", session);
 
-        // ✅ Pass directly to handler — no need to retrieve again
+        //  Pass directly to handler — no need to retrieve again
         await handleCheckSessionCompleted({ session });
         break;
       }

@@ -1,6 +1,6 @@
 import { plans } from "@/components/home/PricePlan";
-import { getDbConnection } from "./db";
-import { getUserUploadCount } from "./summaries";
+import { getDbConnection } from "@/lib/db";
+import { getUserUploadCount } from "@/lib/summaries";
 import { User } from "@clerk/nextjs/server";
 
 // ✅ Get price_id from email 

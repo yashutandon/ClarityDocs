@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import { ArrowRight, CheckIcon } from "lucide-react";
 import Link from "next/link";
 import { plans } from "./PricePlan";
-import { MotionDiv, MotionSection } from "../common/MotionWrapper";
+import { MotionDiv, MotionSection } from "@/components/common/MotionWrapper";
 import { containerVariants, itemVariants } from "@/utils/constant";
 
 type PriceType = {

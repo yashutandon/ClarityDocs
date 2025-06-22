@@ -1,12 +1,11 @@
 'use client'
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { currentUser } from "@clerk/nextjs/server";
+import { Card } from "@/components/ui/card";
 import { useState } from "react";
 import NavigationControls from "./NavigationControls";
 import ProgressBar from "./ProgressBar";
 import { parseSection } from "@/lib/SummerHelper";
 import ContentSection from "./ContentSection";
-import { MotionDiv } from "../common/MotionWrapper";
+import { MotionDiv } from "@/components/common/MotionWrapper";
 
 
 
@@ -31,7 +30,7 @@ export default function SummaryView({summary}:{summary:string}) {
    
     const sections=summary.split('\n# ').map((section)=>section.trim()).filter(Boolean).map(parseSection);
   return (
-   <Card className="relative px-2 h-[500px] sm:h-[600px] lg:h-[700px] w-full xl:w-[600px] overflow-hidden bg-linear-to-br from-background via-background/95 to-rose-500/5 backdrop-blur-lg shadow-2xl rounded-3xl border border-rose-500/10">
+   <Card className="relative px-2 h-[500px] sm:h-[600px] lg:h-[600px] w-full xl:w-[600px] overflow-hidden bg-linear-to-br from-background via-background/95 to-rose-500/5 backdrop-blur-lg shadow-2xl rounded-3xl border border-rose-500/10">
     <ProgressBar sections={sections} currentSection={currentSection}/>
     <MotionDiv key={currentSection} initial={{opacity:0}} whileInView={{opacity:1}} transition={{duration:0.2,ease:'easeInOut'}} exit={{opacity:0}}  className="h-full overflow-y-auto scrollbar-hide pt-12 sm:pt-16 pb-20 sm:pb-24">
         <div className="px-4 sm:px-6">

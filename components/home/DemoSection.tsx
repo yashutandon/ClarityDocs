@@ -1,6 +1,6 @@
 import { Pizza } from "lucide-react";
-import { MotionDiv, MotionH3 } from "../common/MotionWrapper";
-import SummaryView from "../summary/SummaryView";
+import { MotionDiv, MotionH3 } from "@/components/common/MotionWrapper";
+import SummaryView from "@/components/summary/SummaryView";
 
  const demoSummary = {
    summary: `

@@ -1,6 +1,6 @@
 import { SUMMARY_SYSTEM_PROMPT } from "@/utils/prompt";
 import OpenAI from "openai";
-import { toast } from "sonner";
+
 
 const client = new OpenAI({
     apiKey: process.env.OpenAI_API_KEY,

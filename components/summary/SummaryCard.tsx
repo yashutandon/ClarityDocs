@@ -5,7 +5,7 @@ import { FileText } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {formatDistanceToNow} from 'date-fns'
 import {formatFileName} from '@/lib/utils'
-import { MotionDiv } from "../common/MotionWrapper";
+import { MotionDiv } from "@/components/common/MotionWrapper";
 import { itemVariants } from "@/utils/constant";
 
 const SummaryHeader = ({

@@ -1,6 +1,6 @@
 import { Sparkles } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
-import { MotionDiv } from "../common/MotionWrapper";
+import { MotionDiv } from "@/components/common/MotionWrapper";
 import { itemVariants } from "@/utils/constant";
 
 export default function UploadHeader() {

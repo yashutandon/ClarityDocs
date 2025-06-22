@@ -1,7 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkle } from "lucide-react";
-import { Badge } from "../ui/badge";
+import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import {  MotionDiv, MotionH1, MotionH2, MotionP, MotionSection, MotionSpan } from "../common/MotionWrapper";
 import { containerVariants, itemVariants } from "@/utils/constant";

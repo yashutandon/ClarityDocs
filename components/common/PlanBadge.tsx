@@ -1,7 +1,7 @@
 import { getPriceIdFromEmail } from "@/lib/user";
 import { currentUser } from "@clerk/nextjs/server";
-import { plans } from "../home/PricePlan";
-import { Badge } from "../ui/badge";
+import { plans } from "@/components/home/PricePlan";
+import { Badge } from "@/components/ui/badge";
 import { Crown } from "lucide-react";
 import { cn } from "@/lib/utils";
 

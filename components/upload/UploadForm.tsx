@@ -8,7 +8,7 @@ import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import LoadingSkeleton from "./LoadingSkeleton";
 import { formFileNameAsTitle } from "@/utils/format";
-import { currentUser } from "@clerk/nextjs/server";
+
 
 
 const schema=z.object({

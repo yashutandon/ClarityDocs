@@ -1,4 +1,4 @@
-import { getDbConnection } from "./db";
+import { getDbConnection } from "@/lib/db";
 
 export async function getSummaries(userId:string) {
     const sql= await getDbConnection();

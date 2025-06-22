@@ -1,7 +1,6 @@
 import { BrainCircuit, FileOutput, FileText, MoveRight } from "lucide-react";
 import { ReactNode } from "react"
-import { MotionDiv, MotionH2, MotionH3 } from "../common/MotionWrapper";
-import { delay } from "motion/react";
+import { MotionDiv, MotionH2, MotionH3 } from "@/components/common/MotionWrapper";
 
 type Step = {
   icon: ReactNode;
@@ -53,7 +52,7 @@ const HowItWorkSection = () => {
         {/* Steps */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto relative">
           {steps.map((step, index) => (
-            <MotionDiv initial={{opacity:0,y:50}} whileInView={{opacity:1,y:0}} transition={{duration:0.5,delay:index *0.2} } className="relative flex items-stretch" key={index}>
+            <MotionDiv initial={{opacity:0,y:50}} whileInView={{opacity:1,y:0}} transition={{duration:0.5, delay:index *0.2} } className="relative flex items-stretch" key={index}>
             <StepItem  {...step} />
             {index<steps.length-1 && <MotionDiv initial={{opacity:0}} whileInView={{opacity:1}} transition={{duration:0.5,delay:index *0.2+0.3} }  className="hidden md:block absolute top-1/2 -right-4 transform -translate-y-1/2 z-10">
                 <MoveRight size={32}  strokeWidth={1} className="text-rose-400"/>

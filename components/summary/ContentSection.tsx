@@ -1,5 +1,5 @@
 import { containerVariants, itemVariants } from "@/utils/constant";
-import { MotionDiv } from "../common/MotionWrapper";
+import { MotionDiv } from "@/components/common/MotionWrapper";
 
 function parsePoint(point: string) {
   const isNumbered = /^\d+\./.test(point);

@@ -5,7 +5,6 @@ import { generateSummaryfromOpenAI } from "@/lib/openAi";
 import { generateSummaryWithCompletion } from "@/lib/gemini";
 import { auth } from "@clerk/nextjs/server";
 import { getDbConnection } from "@/lib/db";
-import { formFileNameAsTitle } from "@/utils/format";
 import { revalidatePath } from "next/cache";
 
 interface PdfsSummaryType {
