@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   title: "ClarityDocs",
   description:
     "An Ai Powered Platform Helps To Get Summary Of Long PDF DOCUMENT.",
-  
+  icons:'/clarity-docs-icon.ico'
 };
 
 export default function RootLayout({
