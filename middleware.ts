@@ -4,16 +4,18 @@ const isProtectedRoute = createRouteMatcher([
   '/dashboard(.*)',
   '/summaries(.*)',
   '/upload(.*)',
-]);
+])
 
-export default clerkMiddleware(async (auth, req) => {
-  if (isProtectedRoute(req)) {
-    await auth.protect();
-  }
+export default clerkMiddleware(async (auth,req)=>{
+  if(isProtectedRoute(req)) await auth.protect();
 });
 
 export const config = {
   matcher: [
-    '/((?!api|_next/static|_next/image|favicon.ico|clarity-docs-icon\\.ico|.*\\..*).*)',
+    // Skip Next.js internals and all static files, unless found in search params
+    '/((?!_next|.*\\..*|html|css|js|json|jpeg|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx|zip|webmanifest).*)',
+    
+    // Always run for API routes
+    '/api/trpc/(.*)',
   ],
 };
