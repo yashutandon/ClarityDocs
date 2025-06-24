@@ -5,8 +5,8 @@
     price: 500,
     description: "Perfect for occasional use",
     items: ["5 PDF summaries per month", "Standard processing speed", "Email support"],
-    paymentLink: "https://buy.stripe.com/test_6oU7sN6iKdcBfr36PTcZa01" ,
-    priceId:  "price_1RdGeMSEn0J6L2RtM5GhmHaE" ,
+    paymentLink: "https://buy.stripe.com/test_dRm6oJcGs4itdSgfxE9sk00" ,
+    priceId:  "price_1RXlrvSAXpJOyYa2AM1Se0CZ" ,
   },
   {
     id: "pro",
@@ -19,7 +19,7 @@
       "24/7 priority support",
       "Markdown Export",
     ],
-    paymentLink: "https://buy.stripe.com/test_3cI8wRgXoegF6Ux2zDcZa00" ,
-    priceId:  "price_1RdGfmSEn0J6L2Rt5D1ZdWdZ" ,
+    paymentLink: "https://buy.stripe.com/test_5kQ28t35ScOZaG499g9sk01" ,
+    priceId:  "price_1RXlrvSAXpJOyYa2FQvSnJHg" ,
   },
 ];
